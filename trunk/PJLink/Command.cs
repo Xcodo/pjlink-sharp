@@ -24,6 +24,7 @@ namespace rv
 {
     public class Command
     {
+        public delegate void CommandResultHandler(Command sender, Response response);
 
         protected Response _cmdResponse;
 
