@@ -119,24 +119,45 @@ namespace rv
         {
             if(initConnection())
             {
-                string cmdString = cmd.getCommandString() + "\r";
+                try
+                {
+                    string cmdString = cmd.getCommandString() + "\r";
 
-                if (_useAuth && _pjKey != "")
-                    cmdString = getMD5Hash(_pjKey  + _passwd) + cmdString; 
-                
-                byte[] sendBytes = Encoding.ASCII.GetBytes(cmdString);
-                _stream.Write(sendBytes, 0, sendBytes.Length);
+                    if (_useAuth && _pjKey != "")
+                        cmdString = getMD5Hash(_pjKey + _passwd) + cmdString;
 
-                byte[] recvBytes = new byte[_client.ReceiveBufferSize];
-                int bytesRcvd = _stream.Read(recvBytes, 0, (int)_client.ReceiveBufferSize);
-                string returndata = Encoding.ASCII.GetString(recvBytes, 0, bytesRcvd);
-                returndata = returndata.Trim();
-                cmd.processAnswerString(returndata); 
-                closeConnection();
-                return cmd.CmdResponse; 
+                    byte[] sendBytes = Encoding.ASCII.GetBytes(cmdString);
+                    _stream.Write(sendBytes, 0, sendBytes.Length);
+
+                    byte[] recvBytes = new byte[_client.ReceiveBufferSize];
+                    int bytesRcvd = _stream.Read(recvBytes, 0, (int)_client.ReceiveBufferSize);
+                    string returndata = Encoding.ASCII.GetString(recvBytes, 0, bytesRcvd);
+                    returndata = returndata.Trim();
+                    cmd.processAnswerString(returndata);
+                    return cmd.CmdResponse;
+                }
+                finally
+                {
+                    closeConnection();
+                }
             }
 
             return Command.Response.COMMUNICATION_ERROR;
+        }
+
+        /// <summary>
+        /// Sends a command asynchronously. The specified resultCallback will be called when 
+        /// the command has executed.
+        /// </summary>
+        public void sendCommandAsync(Command cmd, Command.CommandResultHandler resultCallback)
+        {
+            System.Threading.Thread t = new System.Threading.Thread((System.Threading.ThreadStart)delegate
+            {
+                var response = sendCommand(cmd);
+                resultCallback(cmd, response);
+            });
+            t.IsBackground = true;
+            t.Start();
         }
 
         #region Shortcuts
