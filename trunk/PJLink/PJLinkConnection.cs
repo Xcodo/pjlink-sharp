@@ -213,12 +213,21 @@ namespace rv
             if (sendCommand(pnc) == Command.Response.SUCCESS) {
                 if (pnc.Name.Length > 0)
                     toRet += " (" + pnc.Name + ")";
-            }
-                
+            }                
             return toRet; 
         }
 
+        public ProjectorInfo getFullProjectorInfo()
+        {            
+            return ProjectorInfo.create(this); 
+        }
+
         #endregion
+
+        public string HostName
+        {
+            get { return _hostName; }
+        }
 
         #region private methods
 
