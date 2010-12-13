@@ -23,9 +23,10 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
@@ -53,6 +54,7 @@
     <Compile Include="ErrorStatusCommand.cs" />
     <Compile Include="PJLinkConnection.cs" />
     <Compile Include="PowerCommand.cs" />
+    <Compile Include="ProjectorInfo.cs" />
     <Compile Include="ProjectorNameCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

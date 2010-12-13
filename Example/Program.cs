@@ -17,8 +17,8 @@ namespace ConsoleApplication1
             PJLinkConnection c = new PJLinkConnection("192.168.1.14", "rv");
 
             //shortcuts
-            c.turnOn();
-            System.Console.WriteLine(c.getProjectorInfo()); 
+            //c.turnOn();
+            //System.Console.WriteLine(c.getProjectorInfo()); 
 
             //detailed command calls
 
@@ -87,6 +87,10 @@ namespace ConsoleApplication1
             //    Console.WriteLine(ic2.dumpToString());
             //else
             //    Console.WriteLine("Communication Error");
+
+            ProjectorInfo pi = ProjectorInfo.create(c);
+            string s = pi.toXmlString();
+            Console.WriteLine(s); 
 
             Console.ReadKey(); 
         }
