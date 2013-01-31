@@ -136,7 +136,7 @@ namespace rv
                     cmd.processAnswerString(returndata);
                     return cmd.CmdResponse;
                 }
-                catch (Exception) { 
+                catch (Exception e) { 
                 }
                 finally
                 {
@@ -240,10 +240,10 @@ namespace rv
                 if (_client == null || !_client.Connected)
                 {
                     _client = new TcpClientTimedConnection();
-                    _client.Connect(_hostName, _port, 2); 
+                    _client.Connect(_hostName, _port, 2000); 
                     _stream = _client.GetStream();
-                    _stream.ReadTimeout = 500;
-                    _stream.WriteTimeout = 500; 
+                    _stream.ReadTimeout = 2000;
+                    _stream.WriteTimeout = 2000; 
 
                     byte[] recvBytes = new byte[_client.ReceiveBufferSize];
                     int bytesRcvd = _stream.Read(recvBytes, 0, (int)_client.ReceiveBufferSize);
@@ -269,7 +269,7 @@ namespace rv
 
         }
 
-        private void closeConnection()
+        public void closeConnection()
         {
             if (_client != null)
                 _client.Close();
