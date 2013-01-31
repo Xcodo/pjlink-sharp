@@ -125,6 +125,14 @@ namespace rv
             get { return _numOfLamps; }
             set { _numOfLamps = value; }
         }
+        public List<LampStatusCommand.Status> MultiLampStatus
+        {
+            get { return _multiLampStatus; }            
+        }
+        public List<int> MultiLampHours
+        {
+            get { return _multiLampHours; }            
+        }
         public ErrorStatusCommand.Status FanStatus
         {
             get { return _fanStatus; }
