@@ -14,7 +14,7 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            PJLinkConnection c = new PJLinkConnection("192.168.1.14", "rv");
+            PJLinkConnection c = new PJLinkConnection("192.168.1.88", "admin");
 
             //shortcuts
             //c.turnOn();
@@ -89,7 +89,7 @@ namespace ConsoleApplication1
             //    Console.WriteLine("Communication Error");
 
             ProjectorInfo pi = ProjectorInfo.create(c);
-            string s = pi.toXmlString();
+            string s = pi.ToString();
             Console.WriteLine(s); 
 
             Console.ReadKey(); 
