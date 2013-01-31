@@ -77,7 +77,7 @@ namespace rv
         /// <summary>
         /// The connection client
         /// </summary>
-        TcpClient _client = null;
+        TcpClientTimedConnection _client = null;
         /// <summary>
         /// The Network stream the _client provides
         /// </summary>
@@ -136,9 +136,11 @@ namespace rv
                     cmd.processAnswerString(returndata);
                     return cmd.CmdResponse;
                 }
+                catch (Exception) { 
+                }
                 finally
                 {
-                    closeConnection();
+                    //closeConnection();
                 }
             }
 
@@ -237,8 +239,12 @@ namespace rv
             {
                 if (_client == null || !_client.Connected)
                 {
-                    _client = new TcpClient(_hostName, _port);
+                    _client = new TcpClientTimedConnection();
+                    _client.Connect(_hostName, _port, 2); 
                     _stream = _client.GetStream();
+                    _stream.ReadTimeout = 500;
+                    _stream.WriteTimeout = 500; 
+
                     byte[] recvBytes = new byte[_client.ReceiveBufferSize];
                     int bytesRcvd = _stream.Read(recvBytes, 0, (int)_client.ReceiveBufferSize);
                     string retVal = Encoding.ASCII.GetString(recvBytes, 0, bytesRcvd);
@@ -255,7 +261,7 @@ namespace rv
                         return true; 
                     }
                 }
-                return false;
+                return true;
             }
             catch(Exception){
                 return false;

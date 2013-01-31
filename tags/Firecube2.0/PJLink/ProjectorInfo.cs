@@ -11,22 +11,22 @@ namespace rv
     public class ProjectorInfo
     {
         private string _projectorHostName = "not set";
-        private string _projectorName = "not set";
-        private string _projectorManufacturerName;
-        private string _projectorProductName;
-        private PowerCommand.PowerStatus _powerStatus;
+        private string _projectorName = "Unknown";
+        private string _projectorManufacturerName = "Unknown";
+        private string _projectorProductName = "Unknown";
+        private PowerCommand.PowerStatus _powerStatus = PowerCommand.PowerStatus.UNKNOWN;
 
-        private int _numOfLamps;
+        private int _numOfLamps = 0;
         private List<LampStatusCommand.Status> _multiLampStatus;
         private List<int> _multiLampHours;
 
-        private ErrorStatusCommand.Status _fanStatus;
-        private ErrorStatusCommand.Status _lampStatus;
-        private ErrorStatusCommand.Status _coverStatus;
-        private ErrorStatusCommand.Status _filterStatus;
-        private ErrorStatusCommand.Status _otherStatus;
+        private ErrorStatusCommand.Status _fanStatus = ErrorStatusCommand.Status.UNKNOWN;
+        private ErrorStatusCommand.Status _lampStatus = ErrorStatusCommand.Status.UNKNOWN;
+        private ErrorStatusCommand.Status _coverStatus = ErrorStatusCommand.Status.UNKNOWN;
+        private ErrorStatusCommand.Status _filterStatus = ErrorStatusCommand.Status.UNKNOWN;
+        private ErrorStatusCommand.Status _otherStatus = ErrorStatusCommand.Status.UNKNOWN;
 
-        private InputCommand.InputType _input;
+        private InputCommand.InputType _input = InputCommand.InputType.UNKNOWN;
         private int _inputPort;
 
 
@@ -36,7 +36,9 @@ namespace rv
             pi._projectorHostName = c.HostName; 
             ProjectorNameCommand pnc = new ProjectorNameCommand();
             if (c.sendCommand(pnc) == Command.Response.SUCCESS)
-                pi._projectorHostName = pnc.Name;
+                pi._projectorName = pnc.Name;
+            else
+                return pi; 
 
             ManufacturerNameCommand mnc = new ManufacturerNameCommand();
             if (c.sendCommand(mnc) == Command.Response.SUCCESS)
