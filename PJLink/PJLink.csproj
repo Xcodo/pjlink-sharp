@@ -88,6 +88,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AVMuteCommand.cs" />
     <Compile Include="TcpClientTimedConnection.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="InputCommand.cs" />
